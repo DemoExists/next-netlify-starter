@@ -3,7 +3,7 @@ local Success, Error = pcall(function()
     repeat wait() until game:IsLoaded()
 
     if is_sirhurt_closure then
-        error("Hi sirhurt user, fnaf ur self.")
+        error("Hi sirhurt user, fuck ur self.")
     end
 
     -- #region // No Console Log    
@@ -904,7 +904,6 @@ local Success, Error = pcall(function()
             local self = Arguments[1]
         
             if SilentSettings.Main.Enabled and self == workspace then
-                print("self == workspace")
                 if ValidateArguments(Arguments, RequiredArgs) then
                     local A_Origin = Arguments[2]
                     local HitPart = GetClosestPlayer()
@@ -913,6 +912,7 @@ local Success, Error = pcall(function()
                     if HitPart then
                         Arguments[3] = GetDirection(A_Origin, HitPart.Position)
                         print("set args")
+                        print(tostring(getcallingscript():GetFullName()))
                         return oldNamecall(unpack(Arguments))
                     end
                 end
@@ -944,7 +944,7 @@ local Success, Error = pcall(function()
         -- #region // General Tab
 
             -- #region // Main Sector
-            MainS:AddSeperator("The Good stuff")
+            MainS:AddSeperator("The Good Shit")
 
             MainS:AddToggle("Infinite Stamina", false, function(V)
                 Settings.InfiniteStamina = V
