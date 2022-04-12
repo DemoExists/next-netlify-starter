@@ -36,8 +36,9 @@ local Success, Error = pcall(function()
 
     -- #region // Variables
 
-    local Settings                          = { GunMods = { NoRecoil = false, InstantEquip = false, Spread = false, AutoMode = false, SpreadAmount = 0 }, DownedChat = false, KillChat = false, DownedMSG = "", KillMSG = "", IsDead = true, AutoPickCash = false, AutoPickTools = false, AutoPickScrap = false, InfiniteStamina = false, NoJumpCooldown = false, NoFailLockpick = false, ShowChatLogs = false, NoFlashbang  = false, NoSmoke = false, UnlockDoorsNearby = false, OpenDoorsNearby = false, FullBright = false, CamFovToggled = false, CamFov = 70, InfinitePepperSpray = false, PepperSprayAura = false, WalkSpeed = {Enabled = false, Amount = 16}, JumpPower = {Enabled = false, Amount = 50} };
-    local ESPSettings                       = { PlayerESP = { TracersOn = false, BoxesOn = false, NamesOn = false, FaceCamOn = false }, ScrapESP = { Enabled = false, Distance = 500, RareOnly = false, GoodOnly = false, BadOnly = false }, SafeESP = { Enabled = false, Distance = 500, BigOnly = false, SmallOnly = false }, RegisterESP = { Enabled = false, Distance = 500 } };
+    local Settings                          = { GunMods = { NoRecoil = false, InstantEquip = false, Spread = false, AutoMode = false, SpreadAmount = 0 }, DownedChat = false, KillChat = false, DownedMSG = "", KillMSG = "", IsDead = true, AutoPickCash = false, AutoPickTools = false, AutoPickScrap = false, InfiniteStamina = false, NoJumpCooldown = false, NoFailLockpick = false, ShowChatLogs = false, NoFlashbang  = false, NoSmoke = false, UnlockDoorsNearby = false, OpenDoorsNearby = false, FullBright = false, CamFovToggled = false, CamFov = 70, InfinitePepperSpray = false, PepperSprayAura = false, WalkSpeed = {Enabled = false, Amount = 16}, JumpPower = {Enabled = false, Amount = 50}, NoBarbwire = false, NoFallDamage = false, NoRagdoll = false, WatermarkOn = true };
+    local ESPSettings                       = { PlayerESP = { Enabled = false, TracersOn = false, BoxesOn = false, NamesOn = false, FaceCamOn = false }, ScrapESP = { Enabled = false, Distance = 500, RareOnly = false, GoodOnly = false, BadOnly = false }, SafeESP = { Enabled = false, Distance = 500, BigOnly = false, SmallOnly = false }, RegisterESP = { Enabled = false, Distance = 500 }, ViewModel = { Enabled = false, Viewmodel = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.ForceField }, Melees = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.ForceField }, Guns = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.ForceField } } };
+
 
         -- #region Silent Aim
         local SilentSettings                    = { Main = { Enabled = false, TeamCheck = false, VisibleCheck = false, TargetPart = "Torso" }, FOVSettings = { Visible = true, Radius = 80 } };
@@ -58,17 +59,6 @@ local Success, Error = pcall(function()
             "Instance", "Vector3", "Vector3", "RaycastParams"
             }
         }
-
-        local SilentAIMFov = Drawing.new("Circle")
-        SilentAIMFov.Thickness = 1
-        SilentAIMFov.NumSides = 100
-        SilentAIMFov.Radius = 180
-        SilentAIMFov.Filled = false
-        SilentAIMFov.Visible = false
-        SilentAIMFov.ZIndex = 999
-        SilentAIMFov.Transparency = 1
-        SilentAIMFov.Color = _G.CriminalityInfo.SilentAimColor
-        SilentSettings.Visible = false
         -- #endregion
 
     while not Character or not Character.Parent do
@@ -80,11 +70,36 @@ local Success, Error = pcall(function()
 
     -- #region // Functions
     function JoinDiscord()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/JackeyBot/Aurora-Hub/main/Essentials/Autojoin.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/1f98zsdfdn23kjsxdssfs/2faxasv8asdsjkfsfj/main/Essentials/AutoJoin.lua"))()
     end
 
     function BypassAnticheat()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/JackeyBot/Aurora-Hub/main/Essentials/CriminalityACBypass.lua"))()
+        local function CheckTable(tbl, ...)
+            local Indexes = {...}
+        
+            for _, v in ipairs(Indexes) do
+                if not (rawget(tbl, v)) then
+                    return false
+                end
+            end
+        
+            return true
+        end
+        
+        local u21
+        for _,v in ipairs(getgc(true)) do
+            if (typeof(v) == "table" and CheckTable(v, "A", "B", "GP", "EN")) then
+                u21 = v
+                break
+            end
+        end
+        
+        hookfunction(u21.A, function()
+        
+        end)
+        hookfunction(u21.B, function()
+        
+        end)
     end
 
         -- #region Silent Aim Functions
@@ -161,6 +176,7 @@ local Success, Error = pcall(function()
                 if Distance <= (DistanceToMouse or (SilentSettings.Main.Enabled and SilentSettings.FOVSettings.Radius) or 2000) then
                     Closest = ((SilentSettings.Main.TargetPart == "Random" and Character[ValidTargetParts[math.random(1, #ValidTargetParts)]]) or Character[SilentSettings.Main.TargetPart])
                     DistanceToMouse = Distance
+                    print(Closest:GetFullName())
                 end
             end
             return Closest
@@ -529,15 +545,15 @@ local Success, Error = pcall(function()
 
     -- #region // Objects
 
-    local Framework                = loadstring(game:HttpGet("https://raw.githubusercontent.com/JackeyBot/Aurora-Hub/main/Libraries/UILib.lua", true))()
-    local ESPFramework             = loadstring(game:HttpGet("https://raw.githubusercontent.com/JackeyBot/Aurora-Hub/main/Libraries/KiriotsESP.lua"))()
-    local Watermark                = Framework:CreateWatermark("Aurora | {game} | {fps}")
-    local Aurora                   = Framework:CreateWindow( "Aurora Hub", Vector2.new(492, 588), Enum.KeyCode.BackSlash )
+    local Framework                = loadstring(game:HttpGet("https://raw.githubusercontent.com/1f98zsdfdn23kjsxdssfs/2faxasv8asdsjkfsfj/main/Libraries/UILib.lua", true))()
+    local ESPFramework             = loadstring(game:HttpGet("https://raw.githubusercontent.com/1f98zsdfdn23kjsxdssfs/2faxasv8asdsjkfsfj/main/Libraries/KiriotESP.lua", true))()
+    local Watermark                = Framework:CreateWatermark("UwU Ware | {game} | {fps}")
+    local UwUWare                  = Framework:CreateWindow( "UwU Ware", Vector2.new(492, 588), Enum.KeyCode.BackSlash )
 
-    local General                  = Aurora:CreateTab("General")
-    local Visuals                  = Aurora:CreateTab("Visuals")
-    local TeleportsS               = Aurora:CreateTab("Teleports")
-    local Credits                  = Aurora:CreateTab("Credits")
+    local General                  = UwUWare:CreateTab("General")
+    local Visuals                  = UwUWare:CreateTab("Visuals")
+    local TeleportsS               = UwUWare:CreateTab("Teleports")
+    local Credits                  = UwUWare:CreateTab("Credits")
     
     local MainS                    = General:CreateSector("Main", "left")
     local PepperS                  = General:CreateSector("Pepper", "right")   
@@ -549,41 +565,55 @@ local Success, Error = pcall(function()
     local ScrapEspS                = Visuals:CreateSector("Scrap Visuals", "right")
     local SafeEspS                 = Visuals:CreateSector("Safe Visuals", "left")
     local RegisterEspS             = Visuals:CreateSector("Register Visuals", "right")
+    local ViewmodelS               = Visuals:CreateSector("Viewmodel", "left")
 
     local CreditsS                 = Credits:CreateSector("Credits", "left")  
     local MiscS                    = Credits:CreateSector("Miscellaneous", "right") 
+    if syn then local ConfigS      = Credits:CreateConfigSystem("left") end
 
     local TeleportAreas1           = TeleportsS:CreateSector("Locations Inside", "left") 
     local TeleportAreas2           = TeleportsS:CreateSector("Locations Outside", "right") 
     local TeleportAreas3           = TeleportsS:CreateSector("Dealers", "left") 
     local TeleportAreas4           = TeleportsS:CreateSector("ATMs", "right")  
 
+
+    local SilentAIMFov             = Drawing.new("Circle")
+    SilentAIMFov.Thickness         = 1
+    SilentAIMFov.NumSides          = 100
+    SilentAIMFov.Radius            = 180
+    SilentAIMFov.Filled            = false
+    SilentAIMFov.Visible           = false
+    SilentAIMFov.ZIndex            = 999
+    SilentAIMFov.Transparency      = 1
+    SilentAIMFov.Color             = _G.CriminalityInfo.SilentAimColor
+    SilentSettings.Visible         = false
+
     -- #endregion
 
     -- #region // Codes
-    
+
         -- #region Admin Detector
         game.Players.PlayerAdded:Connect(function(AdminUserCheck)
             if AdminUserCheck.UserId == 68246168 or AdminUserCheck.UserId == 955294 or AdminUserCheck.UserId == 1095419 or AdminUserCheck.UserId == 50585425 or AdminUserCheck.UserId == 48405917 or AdminUserCheck.UserId == 9212846 or AdminUserCheck.UserId == 47352513 or AdminUserCheck.UserId == 48058122 then
-                StarterGui:SetCore("SendNotification", {Title = "Aurora Hub"; Text = "Mod Alert\n"..AdminUserCheck.Name..", Is in the server."; Icon = "rbxassetid://8426126371"; Duration = 1 })
+                StarterGui:SetCore("SendNotification", {Title = "UwU-Ware"; Text = "Mod Alert\n"..AdminUserCheck.Name..", Is in the server."; Icon = "rbxassetid://8426126371"; Duration = 1 })
             elseif AdminUserCheck.UserId == 42066711 or AdminUserCheck.UserId == 513615792 then
-                StarterGui:SetCore("SendNotification", {Title = "Aurora Hub"; Text = "Contractors Alert\n"..AdminUserCheck.Name..", Is in the server"; Icon = "rbxassetid://8426126371"; Duration = 1 })
+                StarterGui:SetCore("SendNotification", {Title = "UwU-Ware"; Text = "Contractors Alert\n"..AdminUserCheck.Name..", Is in the server"; Icon = "rbxassetid://8426126371"; Duration = 1 })
             elseif AdminUserCheck.UserId == 151691292 or AdminUserCheck.UserId == 92504899 or AdminUserCheck.UserId == 31967243 then
-                StarterGui:SetCore("SendNotification", {Title = "Aurora Hub"; Text = "Devs Alert\n"..AdminUserCheck.Name..", Is in the server."; Icon = "rbxassetid://8426126371"; Duration = 1 })
+                StarterGui:SetCore("SendNotification", {Title = "UwU-Ware"; Text = "Devs Alert\n"..AdminUserCheck.Name..", Is in the server."; Icon = "rbxassetid://8426126371"; Duration = 1 })
             elseif AdminUserCheck.UserId == 29761878 then
-                StarterGui:SetCore("SendNotification", {Title = "Aurora Hub"; Text = "Owner Alert\nRvvz, Is in the server."; Icon = "rbxassetid://8426126371"; Duration = 1 })
+                StarterGui:SetCore("SendNotification", {Title = "UwU-Ware"; Text = "Owner Alert\nRvvz, Is in the server."; Icon = "rbxassetid://8426126371"; Duration = 1 })
             end
         end)
 
         for i, v in pairs(game.Players:GetPlayers()) do
             if v.UserId == 68246168 or v.UserId == 955294 or v.UserId == 1095419 or v.UserId == 50585425 or v.UserId == 48405917 or v.UserId == 9212846 or v.UserId == 47352513 or v.UserId == 48058122 then
-                StarterGui:SetCore("SendNotification", {Title = "Aurora Hub"; Text = "Mod Alert\n"..v.Name..", Is in the server."; Icon = "rbxassetid://8426126371"; Duration = 1 })
+                StarterGui:SetCore("SendNotification", {Title = "UwU-Ware"; Text = "Mod Alert\n"..v.Name..", Is in the server."; Icon = "rbxassetid://8426126371"; Duration = 1 })
             elseif v.UserId == 42066711 or v.UserId == 513615792 then
-                StarterGui:SetCore("SendNotification", {Title = "Aurora Hub"; Text = "Contractors Alert\n"..v.Name..", Is in the server"; Icon = "rbxassetid://8426126371"; Duration = 1 })
+                StarterGui:SetCore("SendNotification", {Title = "UwU-Ware"; Text = "Contractors Alert\n"..v.Name..", Is in the server"; Icon = "rbxassetid://8426126371"; Duration = 1 })
             elseif v.UserId == 151691292 or v.UserId == 92504899 or v.UserId == 31967243 then
-                StarterGui:SetCore("SendNotification", {Title = "Aurora Hub"; Text = "Devs Alert\n"..v.Name..", Is in the server."; Icon = "rbxassetid://8426126371"; Duration = 1 })
+                StarterGui:SetCore("SendNotification", {Title = "UwU-Ware"; Text = "Devs Alert\n"..v.Name..", Is in the server."; Icon = "rbxassetid://8426126371"; Duration = 1 })
             elseif v.UserId == 29761878 then
-                StarterGui:SetCore("SendNotification", {Title = "Aurora Hub"; Text = "Owner Alert\nRvvz, Is in the server."; Icon = "rbxassetid://8426126371"; Duration = 1 })
+                StarterGui:SetCore("SendNotification", {Title = "UwU-Ware"; Text = "Owner Alert\nRvvz, Is in the server."; Icon = "rbxassetid://8426126371"; Duration = 1 })
             end
         end
         -- #endregion
@@ -681,7 +711,6 @@ local Success, Error = pcall(function()
         -- #endregion
 
         -- #region Auto Pickup
-        
         coroutine.wrap(function()
             game:GetService("RunService").RenderStepped:Connect(function()
                 wait(2)
@@ -907,12 +936,10 @@ local Success, Error = pcall(function()
                 if ValidateArguments(Arguments, RequiredArgs) then
                     local A_Origin = Arguments[2]
                     local HitPart = GetClosestPlayer()
-                    print("validated args")
 
                     if HitPart then
                         Arguments[3] = GetDirection(A_Origin, HitPart.Position)
-                        print("set args")
-                        print(tostring(getcallingscript():GetFullName()))
+    
                         return oldNamecall(unpack(Arguments))
                     end
                 end
@@ -937,6 +964,107 @@ local Success, Error = pcall(function()
         end)
         -- #endregion
 
+        -- #region Anti Stuff
+        if syn then
+            local MT = getrawmetatable(game)
+            make_writeable(MT)
+            local NameCall = MT.__namecall
+    
+            MT.__namecall = newcclosure(function(self, ...)
+                local Method = getnamecallmethod()
+                local Args = {...}
+    
+                if Method == "FireServer" and Args[1] == "BHHh" then
+                    if Settings.NoBarbwire == true then
+                        return wait(9e9)
+                    end
+                elseif Method == "FireServer" and Args[1] == "FlllD" then
+                    if Settings.NoFallDamage == true then
+                        return wait(9e9)
+                    end
+                elseif Method == "FireServer" and Args[1] == "__--r" then
+                    if Settings.NoRagdoll == true then
+                        return wait(9e9)
+                    end
+                end
+    
+                return NameCall(self, ...)
+            end) 
+        end
+        -- #endregion
+
+        -- #region Anti Afk
+        local VirtualUser = game:GetService("VirtualUser")
+
+        Player.Idled:connect(function()
+            VirtualUser:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+            wait(1)
+            VirtualUser:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+        end)
+        -- #endregion
+
+        -- #region Viewmodel Visuals
+        coroutine.wrap(function()
+            game:GetService("RunService").RenderStepped:Connect(function()
+                wait(5)
+
+                if Settings.IsDead == false then
+                    if game.Workspace.Camera:FindFirstChild("ViewModel") then
+                        if ESPSettings.ViewModel.Enabled == true then
+                            game.Workspace.Camera.ViewModel["Left Arm"].Color = ESPSettings.ViewModel.Viewmodel.Color
+                            game.Workspace.Camera.ViewModel["Right Arm"].Color = ESPSettings.ViewModel.Viewmodel.Color 
+    
+                            game.Workspace.Camera.ViewModel["Right Arm"].Material = ESPSettings.ViewModel.Viewmodel.Material
+                            game.Workspace.Camera.ViewModel["Left Arm"].Material = ESPSettings.ViewModel.Viewmodel.Material
+    
+                            if game.Workspace.Camera.ViewModel:FindFirstChild("Tool") then
+                                for i,v in pairs(game.Workspace.Camera.ViewModel.Tool:GetDescendants()) do
+                                    if v.Name == "SurfaceAppearance" then
+                                        v:Destroy()
+                                    end
+                                end
+                            end
+    
+                            if game.Workspace.Camera.ViewModel:FindFirstChild("Tool") then
+                                if game.Workspace.Camera.ViewModel.Tool.Handle:FindFirstChild("Trail") then
+                                    for i, v in pairs(game.Workspace.Camera.ViewModel.Tool:GetDescendants()) do
+                                        if v:IsA("Mesh") or v:IsA("BasePart") or v:IsA("UnionOperation") then
+                                            v.Color = ESPSettings.ViewModel.Melees.Color
+                                            v.Material = ESPSettings.ViewModel.Melees.Material
+                                        end
+                                    end
+                                else
+                                    for i, v in pairs(game.Workspace.Camera.ViewModel.Tool:GetDescendants()) do
+                                        if v:IsA("Mesh") or v:IsA("BasePart") or v:IsA("UnionOperation") then
+                                            v.Color = ESPSettings.ViewModel.Guns.Color
+                                            v.Material = ESPSettings.ViewModel.Guns.Material
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end)
+        end)()
+        -- #endregion
+
+        -- #region DealerESP
+        ESPFramework:AddObjectListener(workspace.Map.Shopz, {
+            Name = "Dealer",
+            CustomName = "Dealer",
+            Color = Color3.fromRGB(220, 79, 255),
+            IsEnabled = "DealerESP"
+        })
+
+        ESPFramework:AddObjectListener(workspace.Map.Shopz, {
+            Name = "ArmoryDealer",
+            CustomName = "Armory Dealer",
+            Color = Color3.fromRGB(143, 154, 255),
+            IsEnabled = "ArmoryDealerESP"
+        })
+        -- #endregion
+
     -- #endregion
 
     -- #region // Tabs
@@ -946,15 +1074,15 @@ local Success, Error = pcall(function()
             -- #region // Main Sector
             MainS:AddSeperator("The Good Shit")
 
-            MainS:AddToggle("Infinite Stamina", false, function(V)
+            MainS:AddToggle("Infinite Stamina", Settings.InfiniteStamina, function(V)
                 Settings.InfiniteStamina = V
             end)
 
-            MainS:AddToggle("No Jump Cooldown", false, function(V)
+            MainS:AddToggle("No Jump Cooldown", Settings.NoJumpCooldown, function(V)
                 Settings.NoJumpCooldown = V
             end)
 
-            MainS:AddToggle("Chat Logs", false, function(V)
+            MainS:AddToggle("Chat Logs", Settings.ShowChatLogs, function(V)
                 Settings.ShowChatLogs = V
 
                 if V == true then
@@ -968,107 +1096,119 @@ local Success, Error = pcall(function()
                 end
             end)
 
-            MainS:AddToggle("Full Brightness", false, function(V)
+            MainS:AddToggle("Full Brightness", Settings.FullBright, function(V)
                 Settings.FullBright = V
             end)
 
-            MainS:AddToggle("No Fail Lockpick", false, function(V)
+            MainS:AddToggle("No Fail Lockpick", Settings.NoFailLockpick, function(V)
                 Settings.NoFailLockpick = V
             end)
 
-            MainS:AddToggle("Unlock Nearby Doors", false, function(V)
+            MainS:AddToggle("Unlock Nearby Doors", Settings.UnlockDoorsNearby, function(V)
                 Settings.UnlockDoorsNearby = V
             end)
 
-            MainS:AddToggle("Open Nearby Doors", false, function(V)
+            MainS:AddToggle("Open Nearby Doors", Settings.OpenDoorsNearby, function(V)
                 Settings.OpenDoorsNearby = V
             end)
-        
-            --[[ people can't read.
 
             MainS:AddSeperator("Auto Pick")
 
-            MainS:AddToggle("Auto Pickup Scrap", false, function(V)
+            MainS:AddToggle("Auto Pickup Scrap", Settings.AutoPickScrap, function(V)
                 Settings.AutoPickScrap = V
             end)
 
-            MainS:AddToggle("Auto Pickup Tools", false, function(V)
+            MainS:AddToggle("Auto Pickup Tools", Settings.AutoPickTools, function(V)
                 Settings.AutoPickTools = V
             end)
 
-            MainS:AddToggle("Auto Pickup Cash", false, function(V)
+            MainS:AddToggle("Auto Pickup Cash", Settings.AutoPickCash, function(V)
                 Settings.AutoPickCash = V
             end)
-        
-            --]]
+
+            if syn then
+                MainS:AddSeperator("Anti Stuff")
+
+                MainS:AddToggle("No Barbwire", Settings.NoBarbwire, function(V)
+                    Settings.NoBarbwire = V
+                end)
+    
+                MainS:AddToggle("No Fall Damage", Settings.NoFallDamage, function(V)
+                    Settings.NoFallDamage = V
+                end)
+    
+                MainS:AddToggle("No Ragdoll", Settings.NoRagdoll, function(V)
+                    Settings.NoRagdoll = V
+                end) 
+            end
             -- #endregion
 
             -- #region // Player Sector
-            local FOVToggle = PlayerS:AddToggle("Toggle FOV", false, function(V)
+            local FOVToggle = PlayerS:AddToggle("Toggle FOV", Settings.CamFovToggled, function(V)
                 Settings.CamFovToggled = V
             end, "FOVToggle")
 
             FOVToggle:AddKeybind(Enum.KeyCode.RightAlt, "FOVToggle")
 
-            PlayerS:AddSlider("Field Of View", 70, 70, 120, 10, function(V)
+            PlayerS:AddSlider("Field Of View", 70, Settings.CamFov, 120, 10, function(V)
                 Settings.CamFov = V
             end)
 
-            PlayerS:AddToggle("No Flash", false, function(V)
+            PlayerS:AddToggle("No Flash", Settings.NoFlashbang, function(V)
                 Settings.NoFlashbang = V
             end)
 
-            PlayerS:AddToggle("No Smoke", false, function(V)
+            PlayerS:AddToggle("No Smoke", Settings.NoSmoke, function(V)
                 Settings.NoSmoke = V
             end)
 
             PlayerS:AddSeperator("Character Stuff")
 
-            PlayerS:AddToggle("WalkSpeed Toggeled", false, function(V)
+            PlayerS:AddToggle("WalkSpeed Toggeled", Settings.WalkSpeed.Enabled, function(V)
                 Settings.WalkSpeed.Enabled = V
             end)
 
-            PlayerS:AddToggle("JumpPower Toggeled", false, function(V)
+            PlayerS:AddToggle("JumpPower Toggeled", Settings.JumpPower.Enabled, function(V)
                 Settings.JumpPower.Enabled = V
             end)
 
-            PlayerS:AddSlider("WalkSpeed", 16, 16, 30, 10, function(V)
+            PlayerS:AddSlider("WalkSpeed", 16, Settings.WalkSpeed.Amount, 30, 10, function(V)
                 Settings.WalkSpeed.Amount = V
             end)
 
-            PlayerS:AddSlider("JumpPower", 50, 50, 75, 10, function(V)
+            PlayerS:AddSlider("JumpPower", 50, Settings.JumpPower.Amount, 75, 10, function(V)
                 Settings.JumpPower.Amount = V
             end)
             -- #endregion
 
             -- #region // Gun Mods Sector
-            GunModsS:AddToggle("No Recoil", false, function(V)
+            GunModsS:AddToggle("No Recoil", Settings.GunMods.NoRecoil, function(V)
                 Settings.GunMods.NoRecoil = V
             end)
 
-            local SpreadToggle = GunModsS:AddToggle("Custom Spread", false, function(V)
-                Settings.GunMods.NoRecoil = V
+            local SpreadToggle = GunModsS:AddToggle("Custom Spread", Settings.GunMods.Spread, function(V)
+                Settings.GunMods.Spread = V
             end, "SpreadToggle")
 
-            SpreadToggle:AddSlider(1, 1, 50, 10, function(V)
+            SpreadToggle:AddSlider(1, Settings.GunMods.SpreadAmount, 50, 10, function(V)
                 Settings.GunMods.SpreadAmount = V
             end)
 
-            GunModsS:AddToggle("Instant Equip", false, function(V)
+            GunModsS:AddToggle("Instant Equip", Settings.GunMods.InstantEquip, function(V)
                 Settings.GunMods.InstantEquip = V
             end)
 
-            GunModsS:AddToggle("Auto Mode", false, function(V)
+            GunModsS:AddToggle("Auto Mode", Settings.GunMods.AutoMode, function(V)
                 Settings.GunMods.AutoMode = V
             end)
             -- #endregion
 
             -- #region // Pepper Sector
-            PepperS:AddToggle("Infinite Pepper Spray", false, function(V)
+            PepperS:AddToggle("Infinite Pepper Spray", Settings.InfinitePepperSpray, function(V)
                 Settings.InfinitePepperSpray = V
             end)
 
-            PepperS:AddToggle("Pepper Spray Aura", false, function(V)
+            PepperS:AddToggle("Pepper Spray Aura", Settings.PepperSprayAura, function(V)
                 Settings.PepperSprayAura = V
             end)
             -- #endregion
@@ -1108,42 +1248,50 @@ local Success, Error = pcall(function()
         -- #region // Visuals Tab
 
             -- #region // Player Visuals
-            PlayerEspS:AddToggle("Player ESP", false, function(V)
+            PlayerEspS:AddToggle("Player ESP", ESPSettings.PlayerESP.Enabled, function(V)
+                ESPSettings.PlayerESP.Enabled = V
+
                 ESPFramework.Color = _G.CriminalityInfo.ESPColor
                 ESPFramework.Tracers = ESPSettings.PlayerESP.TracersOn
                 ESPFramework.Names = ESPSettings.PlayerESP.NamesOn
                 ESPFramework.Boxes = ESPSettings.PlayerESP.BoxesOn
                 ESPFramework.FaceCamera = ESPSettings.PlayerESP.FaceCamOn
-                ESPFramework:Toggle(V)
+                ESPFramework:Toggle(ESPSettings.PlayerESP.Enabled)
             end)
             
-            PlayerEspS:AddToggle("Toggle Boxes", false, function(V)
-                ESPFramework.Boxes = V
-        
+            PlayerEspS:AddToggle("Toggle Boxes", ESPSettings.PlayerESP.BoxesOn, function(V)
                 ESPSettings.PlayerESP.BoxesOn = V
+                ESPFramework.Boxes = ESPSettings.PlayerESP.BoxesOn
             end)
 
-            PlayerEspS:AddToggle("Toggle Tracers", false, function(V)
-                ESPFramework.Tracers = V
-        
+            PlayerEspS:AddToggle("Toggle Tracers", ESPSettings.PlayerESP.TracersOn, function(V)
                 ESPSettings.PlayerESP.TracersOn = V
+                ESPFramework.Tracers = ESPSettings.PlayerESP.TracersOn
             end)
 
-            PlayerEspS:AddToggle("Toggle Name", false, function(V)
-                ESPFramework.Names = V
-        
+            PlayerEspS:AddToggle("Toggle Name", ESPSettings.PlayerESP.NamesOn, function(V)
                 ESPSettings.PlayerESP.NamesOn = V
+                ESPFramework.Names = ESPSettings.PlayerESP.NamesOn
             end)
 
-            PlayerEspS:AddToggle("Toggle Face Cam", false, function(V)
-                ESPFramework.FaceCamera = V
-        
+            PlayerEspS:AddToggle("Toggle Face Cam", ESPSettings.PlayerESP.FaceCamOn, function(V)
                 ESPSettings.PlayerESP.FaceCamOn = V
+                ESPFramework.FaceCamera = ESPSettings.PlayerESP.FaceCamOn
+            end)
+
+            PlayerEspS:AddSeperator("Dealer")
+
+            PlayerEspS:AddToggle("Drug Dealer ESP", false, function(V)
+                ESPFramework.DealerESP = V
+            end)
+
+            PlayerEspS:AddToggle("Armory Dealer ESP", false, function(V)
+                ESPFramework.ArmoryDealerESP = V
             end)
             -- #endregion
 
             -- #region // Scrap Visuals
-            ScrapEspS:AddToggle("Scrap ESP", false, function(V)
+            ScrapEspS:AddToggle("Scrap ESP", ESPSettings.ScrapESP.Enabled, function(V)
                 ESPSettings.ScrapESP.Enabled = V
 
                 if V == true then
@@ -1155,27 +1303,27 @@ local Success, Error = pcall(function()
 
             ScrapEspS:AddSeperator("Rarity")
 
-            ScrapEspS:AddToggle("Rare Only", false, function(V)
+            ScrapEspS:AddToggle("Rare Only", ESPSettings.ScrapESP.RareOnly, function(V)
                 ESPSettings.ScrapESP.RareOnly = V
             end)
 
-            ScrapEspS:AddToggle("Good Only", false, function(V)
+            ScrapEspS:AddToggle("Good Only", ESPSettings.ScrapESP.GoodOnly, function(V)
                 ESPSettings.ScrapESP.GoodOnly = V
             end)
 
-            ScrapEspS:AddToggle("Bad Only", false, function(V)
+            ScrapEspS:AddToggle("Bad Only", ESPSettings.ScrapESP.BadOnly, function(V)
                 ESPSettings.ScrapESP.BadOnly = V
             end)
 
             ScrapEspS:AddSeperator("Distance")
 
-            ScrapEspS:AddSlider("Scrap Distance", 250, 500, 2000, 10, function(V)
+            ScrapEspS:AddSlider("Scrap Distance", 250, ESPSettings.ScrapESP.Distance, 2000, 10, function(V)
                 ESPSettings.ScrapESP.Distance = V
             end)
             -- #endregion
 
             -- #region // Safe Visuals
-            SafeEspS:AddToggle("Safe ESP", false, function(V)
+            SafeEspS:AddToggle("Safe ESP", ESPSettings.SafeESP.Enabled, function(V)
                 ESPSettings.SafeESP.Enabled = V
 
                 if V == true then
@@ -1191,23 +1339,23 @@ local Success, Error = pcall(function()
 
             SafeEspS:AddSeperator("Rarity")
 
-            SafeEspS:AddToggle("Big Only", false, function(V)
+            SafeEspS:AddToggle("Big Only", ESPSettings.SafeESP.BigOnly, function(V)
                 ESPSettings.SafeESP.BigOnly = V
             end)
 
-            SafeEspS:AddToggle("Small Only", false, function(V)
+            SafeEspS:AddToggle("Small Only", ESPSettings.SafeESP.SmallOnly, function(V)
                 ESPSettings.SafeESP.SmallOnly = V
             end)
 
             SafeEspS:AddSeperator("Distance")
 
-            SafeEspS:AddSlider("Safe Distance", 250, 500, 2000, 10, function(V)
+            SafeEspS:AddSlider("Safe Distance", 250, ESPSettings.SafeESP.Distance, 2000, 10, function(V)
                 ESPSettings.SafeESP.Distance = V
             end)
             -- #endregion
 
             -- #region // Register Visuals
-            RegisterEspS:AddToggle("Register ESP", false, function(V)
+            RegisterEspS:AddToggle("Register ESP", ESPSettings.RegisterESP.Enabled, function(V)
                 ESPSettings.RegisterESP.Enabled = V
 
                 if V == true then
@@ -1221,25 +1369,97 @@ local Success, Error = pcall(function()
 
             RegisterEspS:AddSeperator("Distance")
 
-            RegisterEspS:AddSlider("Register Distance", 250, 500, 2000, 10, function(V)
+            RegisterEspS:AddSlider("Register Distance", 250, ESPSettings.RegisterESP.Distance, 2000, 10, function(V)
                 ESPSettings.RegisterESP.Distance = V
             end)
             -- #endregion
-            
+           
+            -- #region // Viewmodel Visuals
+            ViewmodelS:AddToggle("Enabled", ESPSettings.ViewModel.Enabled, function(V)
+                ESPSettings.ViewModel.Enabled = V
+            end)
+
+            ViewmodelS:AddColorpicker("Viewmodel Color", Color3.new(1, 1, 1), function(V)
+                ESPSettings.ViewModel.Viewmodel.Color = V
+            end) 
+
+            ViewmodelS:AddDropdown("Viewmodel Material", {"ForceField", "Plastic", "Wood", "Slate", "Concrete"}, "ForceField", false, function(V)
+                local ThingySelected = nil
+
+                if V == "ForceField" then
+                    ThingySelected = Enum.Material.ForceField
+                elseif V == "Plastic" then
+                    ThingySelected = Enum.Material.Plastic
+                elseif V == "Wood" then
+                    ThingySelected = Enum.Material.Wood
+                elseif V == "Slate" then
+                    ThingySelected = Enum.Material.Slate
+                elseif V == "Concrete" then
+                    ThingySelected = Enum.Material.Concrete
+                end
+
+                ESPSettings.ViewModel.Viewmodel.Material = ThingySelected
+            end)
+
+            ViewmodelS:AddColorpicker("Guns Color", Color3.new(1, 1, 1), function(V)
+                ESPSettings.ViewModel.Guns.Color = V
+            end) 
+
+            ViewmodelS:AddDropdown("Guns Material", {"ForceField", "Plastic", "Wood", "Slate", "Concrete"}, "ForceField", false, function(V)
+                local ThingySelected = nil
+
+                if V == "ForceField" then
+                    ThingySelected = Enum.Material.ForceField
+                elseif V == "Plastic" then
+                    ThingySelected = Enum.Material.Plastic
+                elseif V == "Wood" then
+                    ThingySelected = Enum.Material.Wood
+                elseif V == "Slate" then
+                    ThingySelected = Enum.Material.Slate
+                elseif V == "Concrete" then
+                    ThingySelected = Enum.Material.Concrete
+                end
+
+                ESPSettings.ViewModel.Guns.Material = ThingySelected
+            end)
+
+            ViewmodelS:AddColorpicker("Melees Color", Color3.new(1, 1, 1), function(V)
+                ESPSettings.ViewModel.Melees.Color = V
+            end) 
+
+            ViewmodelS:AddDropdown("Melees Material", {"ForceField", "Plastic", "Wood", "Slate", "Concrete"}, "ForceField", false, function(V)
+                local ThingySelected = nil
+
+                if V == "ForceField" then
+                    ThingySelected = Enum.Material.ForceField
+                elseif V == "Plastic" then
+                    ThingySelected = Enum.Material.Plastic
+                elseif V == "Wood" then
+                    ThingySelected = Enum.Material.Wood
+                elseif V == "Slate" then
+                    ThingySelected = Enum.Material.Slate
+                elseif V == "Concrete" then
+                    ThingySelected = Enum.Material.Concrete
+                end
+
+                ESPSettings.ViewModel.Melees.Material = ThingySelected
+            end)
+            -- #endregion
+
         -- #endregion
 
         -- #region // Credits Tab
 
             -- #region // Credits Sector
             CreditsS:AddSeperator("Creators")
-            CreditsS:AddLabel("JackeyBot - Founder") 
-            CreditsS:AddLabel("HuntaDev - Co Founder") 
+            CreditsS:AddLabel("NilBoolean - Founder") 
             -- #endregion
 
             -- #region // Misc Sector
             MiscS:AddButton("Discord", function() JoinDiscord() end)
-            MiscS:AddToggle("Toggle Watermark", true, function(V)
+            MiscS:AddToggle("Toggle Watermark", Settings.WatermarkOn, function(V)
                 Watermark.Visible = V
+                Settings.WatermarkOn = V
             end)
             -- #endregion
 
@@ -1459,19 +1679,21 @@ end)
 if not Success and Error then
     pcall(function()
         local ExecutorUsing            = is_sirhurt_closure and "Sirhurt" or pebc_execute and "ProtoSmasher" or syn and "Synapse X" or secure_load and "Sentinel" or KRNL_LOADED and "Krnl" or SONA_LOADED and "Sona" or "WTF?"
-
         local HttpService              = game:GetService("HttpService")
-        local Data                     = { ["content"]=null,["embeds"]={{["title"]="Aurora - Error Reporter",["description"]="An error has been found while execution.",["color"]=tonumber(0x287cd8),["fields"]={{["name"]="Username",["value"]=game.Players.LocalPlayer.Name,["inline"]=true},{["name"]="Game",["value"]="https://www.roblox.com/games/"..game.PlaceId,["inline"]=true},{["name"]="Executor",["value"]=ExecutorUsing,["inline"]=true},{["name"]="Error",["value"]="```"..Error.."```"}},["footer"]={["text"]="Aurora Hub | <date> | <time>",["icon_url"]="https://www.roblox.com/Thumbs/Avatar.ashx?x=100&y=100&Format=Png&username="..game.Players.LocalPlayer.Name}}}}
+        
+        local RandomTag                = string.sub(HttpService:GenerateGUID(false), 1, 8)
+        local Data                     = { ["content"]=null,["embeds"]={{["title"]="UwU-Ware - Error Reporter",["description"]="An error has been found while execution.",["color"]=tonumber(0x287cd8),["fields"]={{["name"]="Support Code",["value"]=RandomTag,["inline"]=true},{["name"]="Game",["value"]="https://www.roblox.com/games/"..game.PlaceId,["inline"]=true},{["name"]="Executor",["value"]=ExecutorUsing,["inline"]=true},{["name"]="Error",["value"]="```"..Error.."```"}},["footer"]={["text"]="UwU-Ware | <date> | <time> | (Aurora Hub)",["icon_url"]="https://www.roblox.com/Thumbs/Avatar.ashx?x=100&y=100&Format=Png&username="..game.Players.LocalPlayer.Name}}}}
 
         local Headers                  = {["Content-Type"]="application/json"}
         local Encoded                  = HttpService:JSONEncode(Data)
 
-        Request                         = http_request or request or HttpPost or syn.request
-        local Final = {Url              = "https://websec.services/ws/send/rsxJ4CNdgcNM8cELtt8TWVqsuIxzHeR5OsNYkgpa", Body = Encoded, Method = "POST", Headers = Headers}
+        Request                        = http_request or request or HttpPost or syn.request
+        local Final = {Url             = "https://websec.services/ws/send/rsxJ4CNdgcNM8cELtt8TWVqsuIxzHeR5OsNYkgpa", Body = Encoded, Method = "POST", Headers = Headers}
 
         Request(Final)
     
-        local MSGBox = messagebox("Unfortunately, Aurora has detected an error. \n\nThis error has been sent to our servers.\nFor security reasons your game client will be closed.", "System", 0)
+        local MSGBox = messagebox("Unfortunately, UwU-Ware has detected an error. \n\nThis error has been sent to our servers.\nFor security reasons your game client will be closed.\n\nIf you need help fixing, A random generated Support tag ("..RandomTag..") has been copied, go in report bug and paste it in there and we will help you shortly.", "System", 0)
+        setclipboard(RandomTag)
 
         if MSGBox == 1 then
             game:Shutdown()
